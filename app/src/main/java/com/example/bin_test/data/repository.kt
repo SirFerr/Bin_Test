@@ -1,6 +1,6 @@
 package com.example.bin_test.data
 
-import SharedPrefManager
+import com.example.bin_test.data.local.SharedPrefManager
 import com.example.bin_test.data.model.BinResponse
 import com.example.bin_test.data.remote.BinListApi
 import kotlinx.coroutines.Dispatchers
@@ -23,17 +23,24 @@ class Repository @Inject constructor(
     }
 
     // Сохранение запроса в истории
-    fun saveBinResponse(binResponse: BinResponse) {
-        sharedPrefManager.saveBinResponse(binResponse)
+    fun saveBin(bin: String) {
+        sharedPrefManager.saveBin(bin)
     }
 
     // Получение всей истории
-    fun getHistory(): List<BinResponse> {
-        return sharedPrefManager.getBinHistory()
+    fun getHistory(): List<String> {
+        return sharedPrefManager.getBinList()
     }
 
-    // Очистка истории
-    fun clearHistory() {
-        sharedPrefManager.clearHistory()
+    // Сохранение BinResponse в репозиторий
+    fun saveBinResponse(bin: String, response: BinResponse) {
+        sharedPrefManager.saveBinResponse(bin, response)
     }
+
+    // Получение списка BIN с данными карты
+    fun getBinResponses(): Map<String, BinResponse> {
+        return sharedPrefManager.getBinMap()
+    }
+
+
 }

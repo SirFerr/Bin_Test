@@ -14,29 +14,12 @@ import javax.inject.Inject
 class ListScreenViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
-    private val _textValue = MutableStateFlow<String>("")
-    val textValue = _textValue.asStateFlow()
 
-    private val _cardInfo = MutableStateFlow<BinResponse?>(null)
-    val cardInfo = _cardInfo.asStateFlow()
+    private val _history = MutableStateFlow<List<Pair<String, BinResponse>>>(emptyList())
+    val history = _history.asStateFlow()
 
-    fun updateText(text: String){
-        _textValue.value=text
-    }
-
-    fun getInfo() {
-        viewModelScope.launch {
-            try {
-                val response = repository.getBinInfo(textValue.value)
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        _cardInfo.value = it
-                        repository.saveBinResponse(binResponse = it)
-                    }
-                }
-            } catch (e: Exception) {
-            }
-
-        }
+    fun getHistory() {
+        val binMap = repository.getBinResponses()
+        _history.value = binMap.toList()
     }
 }

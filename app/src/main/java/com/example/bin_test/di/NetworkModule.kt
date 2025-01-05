@@ -15,13 +15,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
     @Singleton
     @Provides
     fun provideRecipeFeedApi(): BinListApi {
         val client = OkHttpClient.Builder()
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
+            .connectTimeout(11, TimeUnit.SECONDS)
+            .readTimeout(11, TimeUnit.SECONDS)
+            .writeTimeout(11, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .build()
 
